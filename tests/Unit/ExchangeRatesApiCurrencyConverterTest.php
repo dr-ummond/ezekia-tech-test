@@ -2,11 +2,11 @@
 
 use App\Enums\CurrencyTypeEnum;
 use App\Exceptions\ConversionException;
-use App\Services\CurrencyConverter\ExchangeRatesApiCurrencyConverter;
+use App\Services\CurrencyConverter\ExchangeRatesApiCurrencyConverterService;
 use Illuminate\Support\Facades\Http;
 
 test('returns the same amount if from and to currency are the same', function () {
-    $converter = new ExchangeRatesApiCurrencyConverter;
+    $converter = new ExchangeRatesApiCurrencyConverterService;
 
     $amount = 1000;
     $currency = CurrencyTypeEnum::USD;
@@ -26,7 +26,7 @@ test('correctly converts the amount when a valid rate is available', function ()
         ], 200),
     ]);
 
-    $converter = new ExchangeRatesApiCurrencyConverter;
+    $converter = new ExchangeRatesApiCurrencyConverterService;
 
     $amount = 1000; // 1000 cents (10 USD)
     $fromCurrency = CurrencyTypeEnum::USD;
@@ -43,7 +43,7 @@ test('throws a ConversionException if the API request fails or returns invalid d
         '*' => Http::response([], 500),
     ]);
 
-    $converter = new ExchangeRatesApiCurrencyConverter;
+    $converter = new ExchangeRatesApiCurrencyConverterService;
 
     $amount = 1000; // 1000 cents (10 USD)
     $fromCurrency = CurrencyTypeEnum::USD;
@@ -59,7 +59,7 @@ test('throws a ConversionException if the exchange rate is not available', funct
         ], 200),
     ]);
 
-    $converter = new ExchangeRatesApiCurrencyConverter;
+    $converter = new ExchangeRatesApiCurrencyConverterService;
 
     $amount = 1000; // 1000 cents (10 USD)
     $fromCurrency = CurrencyTypeEnum::USD;

@@ -2,10 +2,10 @@
 
 use App\Enums\CurrencyTypeEnum;
 use App\Exceptions\ConversionException;
-use App\Services\CurrencyConverter\LocalCurrencyConverter;
+use App\Services\CurrencyConverter\LocalCurrencyConverterService;
 
 test('returns the same amount if from and to currency are the same', function () {
-    $converter = new LocalCurrencyConverter;
+    $converter = new LocalCurrencyConverterService;
 
     $amount = 1000;
     $currency = CurrencyTypeEnum::USD;
@@ -21,7 +21,7 @@ test('correctly converts the amount when a valid rate is available', function ()
         'EUR' => ['USD' => 1.18], // example reverse rate: 1 EUR = 1.18 USD
     ]]);
 
-    $converter = new LocalCurrencyConverter;
+    $converter = new LocalCurrencyConverterService;
 
     // 1000 cents (10 USD) to EUR (should return 850 cents)
     $amount = 1000;
@@ -38,7 +38,7 @@ test('throws a ConversionException if conversion is unsupported', function () {
         'USD' => ['EUR' => 0.85],
     ]]);
 
-    $converter = new LocalCurrencyConverter;
+    $converter = new LocalCurrencyConverterService;
 
     $amount = 1000; // 10 USD in smallest unit
     $fromCurrency = CurrencyTypeEnum::USD;

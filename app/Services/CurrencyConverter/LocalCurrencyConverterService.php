@@ -6,7 +6,7 @@ use App\Enums\CurrencyTypeEnum;
 use App\Exceptions\ConversionException;
 use App\Interfaces\CurrencyConverterInterface;
 
-class LocalCurrencyConverter implements CurrencyConverterInterface
+class LocalCurrencyConverterService implements CurrencyConverterInterface
 {
     /**
      * @throws ConversionException

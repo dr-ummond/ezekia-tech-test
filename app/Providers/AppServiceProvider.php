@@ -3,8 +3,8 @@
 namespace App\Providers;
 
 use App\Interfaces\CurrencyConverterInterface;
-use App\Services\CurrencyConverter\ExchangeRatesApiCurrencyConverter;
-use App\Services\CurrencyConverter\LocalCurrencyConverter;
+use App\Services\CurrencyConverter\ExchangeRatesApiCurrencyConverterService;
+use App\Services\CurrencyConverter\LocalCurrencyConverterService;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -16,8 +16,8 @@ class AppServiceProvider extends ServiceProvider
     {
         $this->app->bind(CurrencyConverterInterface::class, function ($app) {
             return match (config('currency.converter_driver')) {
-                'local' => $app->make(LocalCurrencyConverter::class),
-                'api' => $app->make(ExchangeRatesApiCurrencyConverter::class),
+                'local' => $app->make(LocalCurrencyConverterService::class),
+                'api' => $app->make(ExchangeRatesApiCurrencyConverterService::class),
             };
         });
     }
