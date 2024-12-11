@@ -15,7 +15,7 @@ class UserDTO
         private readonly string $firstName,
         private readonly string $lastName,
         private readonly float $hourlyRate,
-        private readonly ?CurrencyTypeEnum $currency,
+        private readonly CurrencyTypeEnum $currency,
         private readonly ?string $bio
     ) {}
 
@@ -25,7 +25,7 @@ class UserDTO
             $request->input('first_name'),
             $request->input('last_name'),
             $request->input('hourly_rate'),
-            CurrencyTypeEnum::tryFrom($request->input('currency', CurrencyTypeEnum::USD->value)),
+            CurrencyTypeEnum::from($request->input('currency')),
             $request->input('bio')
         );
     }
