@@ -12,11 +12,11 @@ class UserDTO
     public User $user;
 
     public function __construct(
-        protected string $firstName,
-        protected string $lastName,
-        protected float $hourlyRate,
-        protected ?CurrencyTypeEnum $currency,
-        public ?string $bio
+        private readonly string $firstName,
+        private readonly string $lastName,
+        private readonly float $hourlyRate,
+        private readonly ?CurrencyTypeEnum $currency,
+        private readonly ?string $bio
     ) {}
 
     public static function fromRequest(UserStoreRequest $request): self
