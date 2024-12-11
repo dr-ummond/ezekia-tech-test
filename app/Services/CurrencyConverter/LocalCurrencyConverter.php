@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services;
+namespace App\Services\CurrencyConverter;
 
 use App\Enums\CurrencyTypeEnum;
 use App\Exceptions\ConversionException;

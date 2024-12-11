@@ -2,7 +2,7 @@
 
 use App\Enums\CurrencyTypeEnum;
 use App\Exceptions\ConversionException;
-use App\Services\LocalCurrencyConverter;
+use App\Services\CurrencyConverter\LocalCurrencyConverter;
 
 test('returns the same amount if from and to currency are the same', function () {
     $converter = new LocalCurrencyConverter;
@@ -16,7 +16,6 @@ test('returns the same amount if from and to currency are the same', function ()
 });
 
 test('correctly converts the amount when a valid rate is available', function () {
-    // Set up the currency rates in the config for testing
     config(['currency.rates' => [
         'USD' => ['EUR' => 0.85], // example rate: 1 USD = 0.85 EUR
         'EUR' => ['USD' => 1.18], // example reverse rate: 1 EUR = 1.18 USD

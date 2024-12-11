@@ -40,7 +40,7 @@ test('creates a UserDTO from UserUpdateRequest correctly, using default user val
     ];
 
     $request = new UserUpdateRequest;
-    $request->replace($requestData);  // Populate the request with test data
+    $request->replace($requestData);
 
     $userDTO = UserDTO::updateFromRequest($user, $request);
 

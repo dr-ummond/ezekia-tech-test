@@ -3,6 +3,15 @@
 use App\Models\User;
 use Illuminate\Support\Str;
 
+beforeEach(function () {
+    config([
+        'currency.rates' => [
+            'USD' => ['GBP' => 0.7],
+        ],
+        'currency.converter_driver' => 'local',
+    ]);
+});
+
 test('a user is returned even when the currency is not sent in the request', function () {
     $user = User::factory()
         ->state([
@@ -35,6 +44,26 @@ test('conversion data is included in the resource when currency is provided', fu
 
     expect($data['is_converted'])->toBeTrue()
         ->and($data['hourly_rate'])->toBe(700)
+        ->and($data['currency'])->toBe('GBP');
+});
+
+test('the request supports lowercase currency query param value', function () {
+
+    $user = User::factory()
+        ->state([
+            'hourly_rate' => 500,
+            'currency' => 'USD',
+        ])
+        ->create();
+
+    $response = $this->getJson(route('user', [$user->uuid, 'currency' => 'gbp']))
+        ->assertSuccessful()
+        ->json();
+
+    $data = $response['data'];
+
+    expect($data['is_converted'])->toBeTrue()
+        ->and($data['hourly_rate'])->toBe(350)
         ->and($data['currency'])->toBe('GBP');
 });
 

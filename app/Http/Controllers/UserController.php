@@ -8,37 +8,31 @@ use App\Http\Requests\UserShowRequest;
 use App\Http\Requests\UserStoreRequest;
 use App\Http\Requests\UserUpdateRequest;
 use App\Http\Resources\UserResource;
-use App\Interfaces\CurrencyConverterInterface;
 use App\Models\User;
-use App\Services\UserService;
+use App\Services\User\UserService;
 use Illuminate\Http\Response;
 
 class UserController extends Controller
 {
     public function __construct(
         protected UserService $user_service,
-        protected CurrencyConverterInterface $currency_converter
     ) {}
 
     public function show(User $user, UserShowRequest $request): UserResource
     {
-        $currency = $request->query('currency');
+        $currency = $request->input('currency');
 
         // If the currency is the same as the user's or if currency is not provided, no conversion is required
         if ($currency === $user->currency->value || ! $currency) {
             return new UserResource($user);
         }
 
-        $convertedRate = $this->currency_converter->convert(
-            $user->hourly_rate,
-            CurrencyTypeEnum::from($user->currency->value),
+        $convertedUser = $this->user_service->convertUserCurrency(
+            $user,
             CurrencyTypeEnum::from($currency)
         );
 
-        $user->converted_rate = $convertedRate;
-        $user->converted_currency = $currency;
-
-        return new UserResource($user);
+        return new UserResource($convertedUser);
     }
 
     public function store(UserStoreRequest $request): UserResource

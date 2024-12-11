@@ -25,7 +25,7 @@ class UserDTO
             $request->input('first_name'),
             $request->input('last_name'),
             $request->input('hourly_rate'),
-            CurrencyTypeEnum::tryFrom(strtoupper($request->input('currency', CurrencyTypeEnum::USD->value))),
+            CurrencyTypeEnum::tryFrom($request->input('currency', CurrencyTypeEnum::USD->value)),
             $request->input('bio')
         );
     }
@@ -36,7 +36,7 @@ class UserDTO
             $request->input('first_name', $user->first_name),
             $request->input('last_name', $user->last_name),
             $request->input('hourly_rate', $user->hourly_rate),
-            CurrencyTypeEnum::tryFrom(strtoupper($request->input('currency', $user->currency->value))),
+            CurrencyTypeEnum::tryFrom($request->input('currency', $user->currency->value)),
             $request->input('bio', $user->bio)
         );
     }
@@ -67,7 +67,7 @@ class UserDTO
         return $this->hourlyRate;
     }
 
-    public function getCurrency(): ?CurrencyTypeEnum
+    public function getCurrency(): CurrencyTypeEnum
     {
         return $this->currency;
     }

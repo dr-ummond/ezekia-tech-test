@@ -22,10 +22,12 @@ class RouteServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        Route::bind('user', function ($value) {
-            abort_if(! Str::isUuid($value), 400);
+        Route::group(['prefix' => 'api/user'], function () {
+            Route::bind('user', function ($value) {
+                abort_if(! Str::isUuid($value), 400);
 
-            return User::where('uuid', $value)->firstOrFail();
+                return User::where('uuid', $value)->firstOrFail();
+            });
         });
     }
 }

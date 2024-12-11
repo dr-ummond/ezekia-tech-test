@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Services;
+namespace App\Services\CurrencyConverter;
 
 use App\Enums\CurrencyTypeEnum;
 use App\Exceptions\ConversionException;
 use App\Interfaces\CurrencyConverterInterface;
 use Illuminate\Support\Facades\Http;
 
-class ApiCurrencyConverter implements CurrencyConverterInterface
+class ExchangeRatesApiCurrencyConverter implements CurrencyConverterInterface
 {
     protected string $apiUrl;
 
